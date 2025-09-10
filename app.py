@@ -37,10 +37,19 @@ def search_amazon_deals(keywords="electronics"):
                     "savings_percent": "N/A"
                 }
                 if item.offers and item.offers.listings:
-                    item_data["price"] = item.offers.listings[0].price.display_amount
-                    if item.offers.listings[0].saving_basis:
-                        item_data["savings"] = item.offers.listings[0].saving_basis.display_amount
-                        item_data["savings_percent"] = item.offers.listings[0].saving_basis.percentage
+                    best_offer = None
+                    min_price = float('inf')
+
+                    for listing in item.offers.listings:
+                        if listing.price and listing.price.amount < min_price:
+                            min_price = listing.price.amount
+                            best_offer = listing
+
+                    if best_offer:
+                        item_data["price"] = best_offer.price.display_amount
+                        if best_offer.saving_basis:
+                            item_data["savings"] = best_offer.saving_basis.display_amount
+                            item_data["savings_percent"] = best_offer.saving_basis.percentage
 
                 items_list.append(item_data)
             return items_list, None
