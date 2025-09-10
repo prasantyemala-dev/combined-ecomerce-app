@@ -44,7 +44,7 @@
                     <p class="price">{{ item.price }}</p>
                     <p class="savings">{{ item.savings }} ({{ item.savings_percent }}%)</p>
                 </div>
-            {% elif not error %}
+            {% else %}
                 <p>No deals found for this search. Please try again.</p>
             {% endfor %}
         </div>
