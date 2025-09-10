@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Deal Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1E5EFF;
+            --secondary-color: #FF3B30;
+            --success-color: #28A745;
+            --background-color: #FFFFFF;
+            --text-primary-color: #1C1C1E;
+            --text-secondary-color: #6E6E73;
+            --card-background-color: #F9F9F9;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-primary-color);
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            overflow: auto;
+            padding: 16px;
+        }
+        .header {
+            padding: 1rem 0;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .category-card {
+            background-color: var(--card-background-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary-color);
+            transition: transform 0.2s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .category-card svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+        .category-card .category-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            border-top: 1px solid #E5E5E5;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary-color);
+        }
+        .bottom-nav .nav-item.active {
+            color: var(--primary-color);
+        }
+        .bottom-nav .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+        .bottom-nav .nav-item .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Categories</h1>
+        </header>
+
+        <div class="category-grid">
+            <a href="/deals?category=Electronics" class="category-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                <span class="category-name">Electronics</span>
+            </a>
+            <a href="/deals?category=Fashion" class="category-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2l-1.4-9.4A2 2 0 0 1 2.5 5h19a2 2 0 0 1 1.9 2.6Z"></path><path d="M16 17a4 4 0 0 1-8 0"></path></svg>
+                <span class="category-name">Fashion</span>
+            </a>
+            <a href="/deals?category=Home" class="category-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span class="category-name">Home & Kitchen</span>
+            </a>
+            <a href="/deals?category=Beauty" class="category-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg>
+                <span class="category-name">Beauty</span>
+            </a>
+             <a href="/deals?category=Grocery" class="category-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12M6 12h12M6 6h12M3 6h18M5 6l1 12h12l1-12M9 22h6"/></svg>
+                <span class="category-name">Grocery</span>
+            </a>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/deals" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="/categories" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span class="nav-text">Categories</span>
+        </a>
+        <a href="/cart" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span class="nav-text">Cart</span>
+        </a>
+        <a href="/profile" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span class="nav-text">Profile</span>
+        </a>
+    </nav>
+</body>
+</html>
