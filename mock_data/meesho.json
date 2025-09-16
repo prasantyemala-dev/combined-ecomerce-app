@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "title": "Stylish Men's Cotton T-Shirt",
+            "url": "https://www.meesho.com/some-product",
+            "image_url": "https://via.placeholder.com/150",
+            "price": "₹299",
+            "original_price": "₹999",
+            "discount": "70%",
+            "savings": "₹700",
+            "source": "Meesho"
+        },
+        {
+            "title": "Elegant Women's Kurti Set",
+            "url": "https://www.meesho.com/some-product-2",
+            "image_url": "https://via.placeholder.com/150",
+            "price": "₹799",
+            "original_price": "₹1999",
+            "discount": "60%",
+            "savings": "₹1200",
+            "source": "Meesho"
+        }
+    ]
+}

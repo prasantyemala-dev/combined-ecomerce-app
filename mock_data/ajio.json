@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "title": "Puma Men's Running Shoes",
+            "url": "https://www.ajio.com/some-product",
+            "image_url": "https://via.placeholder.com/150",
+            "price": "₹1,499",
+            "original_price": "₹3,999",
+            "discount": "62%",
+            "savings": "₹2500",
+            "source": "Ajio"
+        },
+        {
+            "title": "Levi's Women's Denim Jacket",
+            "url": "https://www.ajio.com/some-product-2",
+            "image_url": "https://via.placeholder.com/150",
+            "price": "₹1,199",
+            "original_price": "₹2,999",
+            "discount": "60%",
+            "savings": "₹1800",
+            "source": "Ajio"
+        }
+    ]
+}

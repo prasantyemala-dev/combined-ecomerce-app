@@ -3,51 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Deal Finder</title>
+    <title>Price Comparison Engine</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; margin: 0; background-color: #f4f4f4; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; margin: 0; background-color: #f8f9fa; color: #343a40; }
         .container { max-width: 1200px; margin: auto; overflow: auto; padding: 0 20px; }
-        .header { background: #333; color: #fff; padding: 1rem 0; text-align: center; margin-bottom: 20px;}
-        .search-form { text-align: center; margin-bottom: 20px; }
-        .search-form input[type="text"] { padding: 10px; width: 300px; }
-        .search-form input[type="submit"] { padding: 10px 20px; background: #007bff; color: #fff; border: none; cursor: pointer; }
-        .deal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); grid-gap: 20px; }
-        .deal-card { background: #fff; border: 1px solid #ddd; padding: 20px; text-align: center; }
-        .deal-card img { max-width: 100%; height: auto; max-height: 150px; }
-        .deal-card h3 { font-size: 1.1rem; margin: 10px 0; height: 50px; overflow: hidden; }
-        .deal-card .price { font-size: 1.2rem; color: #b12704; font-weight: bold; }
-        .deal-card .savings { color: #555; }
-        .deal-card a { text-decoration: none; color: #333; }
+        .header { background: #007bff; color: #fff; padding: 1.5rem 0; text-align: center; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-weight: 500; }
+        .search-form { text-align: center; margin-bottom: 40px; }
+        .search-form input[type="text"] { padding: 12px; width: 50%; max-width: 500px; border: 1px solid #ddd; border-radius: 25px; font-size: 1rem; }
+        .search-form input[type="submit"] { padding: 12px 25px; background: #28a745; color: #fff; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+
+        .section-title { font-size: 2rem; font-weight: 500; text-align: center; margin-bottom: 30px; color: #495057; }
+
+        /* Grid for both deals and search results */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); grid-gap: 30px; }
+
+        /* Card for Biggest Discounts */
+        .deal-card { background: #fff; border: 1px solid #e9ecef; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .deal-card a { text-decoration: none; color: inherit; }
+        .deal-card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; padding: 10px; }
+        .deal-card h3 { font-size: 1.1rem; margin: 0 10px 10px; height: 45px; overflow: hidden; }
+        .deal-info { margin-bottom: 15px; }
+        .deal-info .price { font-size: 1.4rem; color: #dc3545; font-weight: bold; }
+        .deal-info .original-price { text-decoration: line-through; color: #6c757d; margin-left: 10px; }
+        .discount-badge { position: absolute; top: 10px; right: 10px; background-color: #dc3545; color: #fff; padding: 5px 10px; font-size: 0.9rem; font-weight: bold; border-radius: 5px; }
+        .store-name { color: #6c757d; font-size: 0.9rem; padding-bottom: 15px; }
+
+        /* Card for Price Comparison Results */
+        .product-card { background: #fff; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .product-card img { max-width: 100%; height: auto; max-height: 180px; object-fit: contain; margin-bottom: 15px; }
+        .product-card h3 { font-size: 1.2rem; margin: 10px 0; }
+        .lowest-price { margin-bottom: 15px; }
+        .lowest-price .price { font-size: 1.5rem; color: #dc3545; font-weight: bold; }
+        .lowest-price .store { font-size: 1rem; color: #6c757d; }
+        .buy-button { display: inline-block; background-color: #007bff; color: #fff; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+        .offer-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .offer-table th, .offer-table td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        .offer-table th { background-color: #f2f2f2; }
+        .offer-table .buy-link { color: #007bff; text-decoration: none; font-weight: bold; }
+
+        hr { border: 0; border-top: 1px solid #dee2e6; margin: 50px 0; }
+
+        /* New styles for list view */
+        .result-item { background: #fff; border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 30px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .product-summary { display: flex; align-items: center; margin-bottom: 20px; }
+        .product-summary img { width: 100px; height: 100px; object-fit: contain; margin-right: 20px; border: 1px solid #eee; border-radius: 5px; }
+        .product-title { font-size: 1.4rem; font-weight: 500; margin: 0; }
+
+        .comparison-table { width: 100%; border-collapse: collapse; }
+        .comparison-table th, .comparison-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f1f1f1; }
+        .comparison-table th { background-color: #f8f9fa; font-weight: 600; }
+        .price-cell { font-weight: bold; font-size: 1.2rem; }
+        .lowest-price-badge { background-color: #28a745; color: #fff; font-size: 0.8rem; padding: 4px 8px; border-radius: 10px; margin-left: 10px; font-weight: bold; }
+        .lowest-price-row { background-color: #e9f7ef; }
+        .buy-now-btn { background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: inline-block; }
+
+        /* Nav and Wishlist/Sharing Buttons */
+        .main-nav { margin-top: 10px; }
+        .main-nav a { color: #fff; text-decoration: none; font-weight: 500; background: rgba(255,255,255,0.15); padding: 8px 15px; border-radius: 20px; margin: 0 5px; }
+        .product-info { flex-grow: 1; text-align: left; }
+        .product-actions { margin-top: 10px; }
+        .wishlist-btn { background-color: #ffc107; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-right: 10px; }
+        .share-btn { background-color: #17a2b8; color: #fff; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-weight: 500; margin: 0 5px; }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>Top E-commerce Deals (60%+ Off)</h1>
+        <h1>E-Commerce Deal Finder</h1>
+        <nav class="main-nav">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('deals_page') }}">All Deals</a>
+            <a href="{{ url_for('wishlist_page') }}">Wishlist (<span id="wishlist-count">{{ session.get('wishlist', [])|length }}</span>)</a>
+        </nav>
     </header>
     <div class="container">
         <form action="/" method="post" class="search-form">
-            <input type="text" name="keywords" value="{{ keywords }}" placeholder="Enter keywords (e.g., 'laptop', 'headphones')">
-            <input type="submit" value="Search">
+            <input type="text" name="keywords" value="{{ keywords }}" placeholder="Search for any product...">
+            <input type="submit" value="Find Lowest Price">
         </form>
 
         {% if error %}
             <p style="color: red; text-align: center;">{{ error }}</p>
         {% endif %}
 
-        <div class="deal-grid">
-            {% for item in items %}
-                <div class="deal-card">
-                    <a href="{{ item.url }}" target="_blank">
-                        <img src="{{ item.image_url }}" alt="{{ item.title }}">
-                        <h3>{{ item.title }}</h3>
-                    </a>
-                    <p class="price">{{ item.price }}</p>
-                    <p class="savings">{{ item.savings }} ({{ item.savings_percent }}%)</p>
-                </div>
-            {% elif not error %}
-                <p>No deals found for this search. Please try again.</p>
-            {% endfor %}
+        <!-- Biggest Discounts Section -->
+        <div id="biggest-discounts">
+            <h2 class="section-title">Biggest Discounts (60%+ Off)</h2>
+            <div class="grid">
+                {% for deal in deals %}
+                    <div class="deal-card">
+                        <a href="{{ deal.url }}" target="_blank">
+                            <div class="discount-badge">{{ deal.discount }} OFF</div>
+                            <img src="{{ deal.image_url }}" alt="{{ deal.title }}">
+                            <h3>{{ deal.title }}</h3>
+                            <div class="deal-info">
+                                <span class="price">{{ deal.price }}</span>
+                                {% if deal.original_price %}
+                                <span class="original-price">{{ deal.original_price }}</span>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="store-name">on {{ deal.source }}</div>
+                    </div>
+                {% else %}
+                    <p>No major discounts found at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- New Price Comparison Search Results -->
+        <div id="search-results-list">
+            <h2 class="section-title">Search Results</h2>
+            {% if items %}
+                {% for item in items %}
+                    <div class="result-item">
+                        <div class="product-summary">
+                            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            <div class="product-info">
+                                <h3 class="product-title">{{ item.title }}</h3>
+                                <div class="product-actions">
+                                    <button class="wishlist-btn" onclick='addToWishlist({{ item|tojson|safe }})'>♡ Save</button>
+                                    <a href="https://api.whatsapp.com/send?text=Check%20out%20this%20deal%20on%20{{ item.title|urlencode }}:%20{{ item.buy_url }}" target="_blank" class="share-btn">WhatsApp</a>
+                                    <a href="https://t.me/share/url?url={{ item.buy_url }}&text=Check%20out%20this%20deal%20on%20{{ item.title|urlencode }}" target="_blank" class="share-btn">Telegram</a>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Store</th>
+                                    <th>Price</th>
+                                    <th>Discount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for offer in item.all_offers %}
+                                <tr {% if offer.price == item.lowest_price %}class="lowest-price-row"{% endif %}>
+                                    <td><strong>{{ offer.source }}</strong></td>
+                                    <td class="price-cell">
+                                        {{ offer.price }}
+                                        {% if offer.price == item.lowest_price %}
+                                            <span class="lowest-price-badge">Lowest Price</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ offer.discount }}</td>
+                                    <td><a href="{{ offer.url }}" target="_blank" class="buy-now-btn">Buy Now</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% elif request.method == 'POST' and keywords %}
+                <p style="text-align: center;">No products found for your search: "<strong>{{ keywords }}</strong>". Please try another keyword.</p>
+            {% else %}
+                <p style="text-align: center;">Search for a product to see price comparisons.</p>
+            {% endif %}
         </div>
     </div>
+
+<script>
+async function addToWishlist(product) {
+    try {
+        const response = await fetch("{{ url_for('add_to_wishlist') }}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(product),
+        });
+        const result = await response.json();
+        if (result.success) {
+            document.getElementById('wishlist-count').innerText = result.wishlist_count;
+            alert('Product added to your wishlist!');
+        } else {
+            alert(result.message || 'Could not add product to wishlist. It may already be there.');
+        }
+    } catch (error) {
+        console.error('Error adding to wishlist:', error);
+        alert('An error occurred.');
+    }
+}
+</script>
 </body>
 </html>

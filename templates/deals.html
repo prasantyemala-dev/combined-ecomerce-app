@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Best Deals</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; margin: 0; background-color: #f8f9fa; color: #343a40; }
+        .container { max-width: 1200px; margin: auto; overflow: auto; padding: 0 20px; }
+        .header { background: #dc3545; color: #fff; padding: 1.5rem 0; text-align: center; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-weight: 500; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); grid-gap: 30px; }
+        .deal-card { background: #fff; border: 1px solid #e9ecef; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .deal-card a { text-decoration: none; color: inherit; }
+        .deal-card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; padding: 10px; }
+        .deal-card h3 { font-size: 1.1rem; margin: 0 10px 10px; height: 45px; overflow: hidden; }
+        .deal-info { margin-bottom: 15px; }
+        .deal-info .price { font-size: 1.4rem; color: #dc3545; font-weight: bold; }
+        .deal-info .original-price { text-decoration: line-through; color: #6c757d; margin-left: 10px; }
+        .discount-badge { position: absolute; top: 10px; right: 10px; background-color: #dc3545; color: #fff; padding: 5px 10px; font-size: 0.9rem; font-weight: bold; border-radius: 5px; }
+        .store-name { color: #6c757d; font-size: 0.9rem; padding-bottom: 15px; }
+
+        .category-filters { text-align: center; margin-bottom: 40px; }
+        .category-filters a { text-decoration: none; color: #007bff; background-color: #e9ecef; padding: 10px 20px; margin: 5px; border-radius: 20px; display: inline-block; font-weight: 500; }
+        .category-filters a.active { background-color: #007bff; color: #fff; font-weight: bold; }
+        .nav-link { position: absolute; top: 20px; left: 20px; color: #fff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{{ url_for('home') }}" class="nav-link">&larr; Back to Home</a>
+        <h1>Today's Best Deals (60%+ Off)</h1>
+    </header>
+    <div class="container">
+        <div class="category-filters">
+            {% for category in categories %}
+                <a href="{{ url_for('deals_page', category=category) }}" class="{{ 'active' if category == selected_category else '' }}">
+                    {{ category|capitalize }}
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="grid">
+            {% for deal in deals %}
+                <div class="deal-card">
+                    <a href="{{ deal.url }}" target="_blank">
+                        <div class="discount-badge">{{ deal.discount }} OFF</div>
+                        <img src="{{ deal.image_url }}" alt="{{ deal.title }}">
+                        <h3>{{ deal.title }}</h3>
+                        <div class="deal-info">
+                            <span class="price">{{ deal.price }}</span>
+                            {% if deal.original_price %}
+                            <span class="original-price">{{ deal.original_price }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="store-name">on {{ deal.source }}</div>
+                </div>
+            {% else %}
+                <p style="text-align: center;">No deals found for the category '{{ selected_category }}'.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
