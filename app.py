@@ -4,7 +4,7 @@ from amazon.paapi import AmazonAPI
 
 app = Flask(__name__)
 
-def search_amazon_deals(keywords="electronics"):
+def search_amazon_deals(keywords="electronics", min_saving_percent=60):
     """
     Connects to the Amazon API and searches for deals.
     Returns a list of items or an error string.
@@ -22,7 +22,7 @@ def search_amazon_deals(keywords="electronics"):
             search_index='All',
             item_count=10,
             sort_by='Price:LowToHigh',
-            min_saving_percent=60
+            min_saving_percent=min_saving_percent
         )
 
         if search_result and search_result['data']:
@@ -57,12 +57,14 @@ def search_amazon_deals(keywords="electronics"):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     keywords = "electronics"
+    min_saving_percent = 60
     if request.method == 'POST':
         keywords = request.form.get('keywords', 'electronics')
+        min_saving_percent = int(request.form.get('min_saving_percent', 60))
 
-    items, error = search_amazon_deals(keywords)
+    items, error = search_amazon_deals(keywords, min_saving_percent)
 
-    return render_template('index.html', items=items, error=error, keywords=keywords)
+    return render_template('index.html', items=items, error=error, keywords=keywords, min_saving_percent=min_saving_percent)
 
 if __name__ == '__main__':
     # Use a production-ready WSGI server in a real environment

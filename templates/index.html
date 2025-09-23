@@ -22,11 +22,17 @@
 </head>
 <body>
     <header class="header">
-        <h1>Top E-commerce Deals (60%+ Off)</h1>
+        <h1>Top E-commerce Deals ({{ min_saving_percent }}%+ Off)</h1>
     </header>
     <div class="container">
         <form action="/" method="post" class="search-form">
             <input type="text" name="keywords" value="{{ keywords }}" placeholder="Enter keywords (e.g., 'laptop', 'headphones')">
+            <label for="min_saving_percent">Min Saving:</label>
+            <select name="min_saving_percent" id="min_saving_percent">
+                {% for percent in [10, 20, 30, 40, 50, 60, 70, 80] %}
+                <option value="{{ percent }}" {% if percent == min_saving_percent|int %}selected{% endif %}>{{ percent }}%</option>
+                {% endfor %}
+            </select>
             <input type="submit" value="Search">
         </form>
 
